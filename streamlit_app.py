@@ -53,6 +53,7 @@ def generate_feed(organicThreshold, humane_scoreThreshold, engagement_scoreThres
 
     user_scores = []
     user_dict = {}
+    user_link = {}
 
     for user in filtered_users:
         norm_eng = squash(log_norm_eng(user.get("engagement_score", 1e-9)))
@@ -64,9 +65,12 @@ def generate_feed(organicThreshold, humane_scoreThreshold, engagement_scoreThres
         )
         user_scores.append({
             "userId": user["userId"],
+            "displayName": user["displayName"],
+            "userName": user["username"],
             "creator_score": score
         })
         user_dict[user["userId"]] = score
+        user_link[user["userId"]] = f"https://firefly.social/profile/farcaster/{user["username"]}/feed"
 
     top_creators = sorted(user_scores, key=itemgetter("creator_score"), reverse=True)[:top_n_creators]
 
@@ -78,10 +82,10 @@ def generate_feed(organicThreshold, humane_scoreThreshold, engagement_scoreThres
         }).sort("timeInUnix", -1).limit(POSTS_PER_CREATOR)
 
         feed_posts.extend(list(posts))
-
     filtered_feed = [
         {
             "userId": post["userId"],
+            "fireflyLink": user_link.get(post["userId"], ""),
             "hash": post["hash"],
             "text": post.get("text", ""),
             "score": user_dict.get(post["userId"], 0)
@@ -134,5 +138,5 @@ if st.button("🔁 Generate Feed") and total_weight == 1.0:
         st.success(f"✅ Generated {len(feed)} posts!")
 
         for post in feed:
-            st.markdown(f"**User ID**: `{post['userId']}`  \n**Hash**: `{post['hash']}`  \n**Score**: `{post['score']}`  \n**Post**: {post['text']}")
+            st.markdown(f"**User ID**: `{post['userId']}` [🔗 View on Firefly]({post['fireflyLink']})  \n  **Hash**: `{post['hash']}`  \n**Score**: `{post['score']}`  \n**Post**: {post['text']}")
             st.markdown("---")
