@@ -105,7 +105,7 @@ top_n_creators = st.sidebar.number_input("Top N Creators", min_value=1, max_valu
 st.sidebar.header("📊 Set Score Thresholds")
 organicThreshold = st.sidebar.slider("Organic Score Threshold", 0.0, 1.0, 0.1, 0.01)
 humane_scoreThreshold = st.sidebar.slider("Humane Score Threshold", 0.0, 1.0, 0.1, 0.01)
-engagement_scoreThreshold = st.sidebar.slider("Engagement Score Threshold", 0.0, 1.0, 0.00001, 0.00001, format="%.5f")
+engagement_scoreThreshold = st.sidebar.slider("Engagement Score Threshold", 0.0, 1.0, 0.0, 0.00001, format="%.5f")
 postSimilarityScoreThreshold = st.sidebar.slider("Max Post Similarity", 0.0, 1.0, 0.9, 0.01)
 
 st.sidebar.header("⚖️ Scoring Weights (must sum to 1.0)")
