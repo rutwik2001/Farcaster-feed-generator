@@ -1,2 +1,8 @@
 streamlit
 pymongo
+sentence-transformers
+psycopg2-binary
+numpy 
+pandas
+torch 
+transformers 
